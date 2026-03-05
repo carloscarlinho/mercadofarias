@@ -1,14 +1,16 @@
 import { createClient } from './supabase';
 import type { Produto, Cliente, Venda, ItemVenda, Pagamento } from './types';
 
-const supabase = createClient();
+function getSupabase() {
+    return createClient();
+}
 
 // ============================================
 // MERCADO
 // ============================================
 
 export async function getMercadoId(): Promise<string> {
-    const { data } = await supabase
+    const { data } = await getSupabase()
         .from('mercados')
         .select('id')
         .limit(1)
@@ -21,7 +23,7 @@ export async function getMercadoId(): Promise<string> {
 // ============================================
 
 export async function getProdutos(mercadoId: string) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
         .from('produtos')
         .select('*')
         .eq('mercado_id', mercadoId)
@@ -31,7 +33,7 @@ export async function getProdutos(mercadoId: string) {
 }
 
 export async function criarProduto(produto: Partial<Produto>) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
         .from('produtos')
         .insert(produto)
         .select()
@@ -41,7 +43,7 @@ export async function criarProduto(produto: Partial<Produto>) {
 }
 
 export async function atualizarProduto(id: string, updates: Partial<Produto>) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
         .from('produtos')
         .update(updates)
         .eq('id', id)
@@ -52,12 +54,12 @@ export async function atualizarProduto(id: string, updates: Partial<Produto>) {
 }
 
 export async function deletarProduto(id: string) {
-    const { error } = await supabase.from('produtos').delete().eq('id', id);
+    const { error } = await getSupabase().from('produtos').delete().eq('id', id);
     if (error) throw error;
 }
 
 export async function atualizarEstoque(id: string, novoEstoque: number) {
-    const { error } = await supabase
+    const { error } = await getSupabase()
         .from('produtos')
         .update({ estoque: novoEstoque })
         .eq('id', id);
@@ -69,7 +71,7 @@ export async function atualizarEstoque(id: string, novoEstoque: number) {
 // ============================================
 
 export async function getClientes(mercadoId: string) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
         .from('clientes')
         .select('*')
         .eq('mercado_id', mercadoId)
@@ -79,7 +81,7 @@ export async function getClientes(mercadoId: string) {
 }
 
 export async function getCliente(id: string) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
         .from('clientes')
         .select('*')
         .eq('id', id)
@@ -89,7 +91,7 @@ export async function getCliente(id: string) {
 }
 
 export async function criarCliente(cliente: Partial<Cliente>) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
         .from('clientes')
         .insert(cliente)
         .select()
@@ -99,7 +101,7 @@ export async function criarCliente(cliente: Partial<Cliente>) {
 }
 
 export async function atualizarCliente(id: string, updates: Partial<Cliente>) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
         .from('clientes')
         .update(updates)
         .eq('id', id)
@@ -110,7 +112,7 @@ export async function atualizarCliente(id: string, updates: Partial<Cliente>) {
 }
 
 export async function deletarCliente(id: string) {
-    const { error } = await supabase.from('clientes').delete().eq('id', id);
+    const { error } = await getSupabase().from('clientes').delete().eq('id', id);
     if (error) throw error;
 }
 
@@ -128,7 +130,7 @@ export async function registrarVenda(
     formaPagamento: string
 ) {
     // 1. Criar venda
-    const { data: venda, error: vendaError } = await supabase
+    const { data: venda, error: vendaError } = await getSupabase()
         .from('vendas')
         .insert({
             mercado_id: mercadoId,
@@ -149,18 +151,18 @@ export async function registrarVenda(
         quantidade: item.quantidade,
         preco_unitario: item.preco_unitario,
     }));
-    const { error: itensError } = await supabase.from('itens_venda').insert(itensVenda);
+    const { error: itensError } = await getSupabase().from('itens_venda').insert(itensVenda);
     if (itensError) throw itensError;
 
     // 3. Baixar estoque de cada produto
     for (const item of itens) {
-        const { data: produto } = await supabase
+        const { data: produto } = await getSupabase()
             .from('produtos')
             .select('estoque')
             .eq('id', item.produto_id)
             .single();
         if (produto) {
-            await supabase
+            await getSupabase()
                 .from('produtos')
                 .update({ estoque: Math.max(0, produto.estoque - item.quantidade) })
                 .eq('id', item.produto_id);
@@ -173,7 +175,7 @@ export async function registrarVenda(
 export async function getVendasDoDia(mercadoId: string) {
     const hoje = new Date();
     hoje.setHours(0, 0, 0, 0);
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
         .from('vendas')
         .select('*')
         .eq('mercado_id', mercadoId)
@@ -193,7 +195,7 @@ export async function registrarPagamento(
     valor: number,
     formaPagamento: string
 ) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
         .from('pagamentos')
         .insert({
             mercado_id: mercadoId,
@@ -213,7 +215,7 @@ export async function registrarPagamento(
 
 export async function getExtratoCliente(clienteId: string) {
     // Vendas fiado do cliente
-    const { data: vendas } = await supabase
+    const { data: vendas } = await getSupabase()
         .from('vendas')
         .select('*, itens_venda(*, produtos(nome))')
         .eq('cliente_id', clienteId)
@@ -221,7 +223,7 @@ export async function getExtratoCliente(clienteId: string) {
         .order('created_at', { ascending: false });
 
     // Pagamentos do cliente
-    const { data: pagamentos } = await supabase
+    const { data: pagamentos } = await getSupabase()
         .from('pagamentos')
         .select('*')
         .eq('cliente_id', clienteId)
@@ -232,7 +234,7 @@ export async function getExtratoCliente(clienteId: string) {
 
 export async function getSaldoDevedor(clienteId: string): Promise<number> {
     // Total fiado (soma dos fiados)
-    const { data: vendas } = await supabase
+    const { data: vendas } = await getSupabase()
         .from('vendas')
         .select('total, sinal, tipo')
         .eq('cliente_id', clienteId)
@@ -245,7 +247,7 @@ export async function getSaldoDevedor(clienteId: string): Promise<number> {
     }, 0);
 
     // Total pagamentos
-    const { data: pagamentos } = await supabase
+    const { data: pagamentos } = await getSupabase()
         .from('pagamentos')
         .select('valor')
         .eq('cliente_id', clienteId);
@@ -264,7 +266,7 @@ export async function getDashboardStats(mercadoId: string) {
     hoje.setHours(0, 0, 0, 0);
 
     // Vendas do dia
-    const { data: vendasHoje } = await supabase
+    const { data: vendasHoje } = await getSupabase()
         .from('vendas')
         .select('total')
         .eq('mercado_id', mercadoId)
@@ -275,7 +277,7 @@ export async function getDashboardStats(mercadoId: string) {
     const ticket_medio = num_vendas > 0 ? vendas_dia / num_vendas : 0;
 
     // Produtos com estoque baixo
-    const { data: estoqueBaixo } = await supabase
+    const { data: estoqueBaixo } = await getSupabase()
         .from('produtos')
         .select('*')
         .eq('mercado_id', mercadoId)
@@ -284,7 +286,7 @@ export async function getDashboardStats(mercadoId: string) {
     // Produtos vencendo em 30 dias
     const em30dias = new Date();
     em30dias.setDate(em30dias.getDate() + 30);
-    const { data: vencendo } = await supabase
+    const { data: vencendo } = await getSupabase()
         .from('produtos')
         .select('*')
         .eq('mercado_id', mercadoId)
