@@ -43,6 +43,19 @@ export default function BottomNav() {
                     </Link>
                 );
             })}
+
+            <button
+                onClick={async () => {
+                    const { logout } = await import("@/lib/auth");
+                    logout();
+                }}
+                className="flex flex-col items-center justify-center gap-1 w-16 group transition-colors text-[#64748b] hover:text-[#ef4444]"
+            >
+                <div className="h-8 flex items-center justify-center relative">
+                    <span className="material-symbols-outlined text-[24px]">logout</span>
+                </div>
+                <span className="text-xs tracking-wide font-medium">Sair</span>
+            </button>
         </nav>
     );
 }
