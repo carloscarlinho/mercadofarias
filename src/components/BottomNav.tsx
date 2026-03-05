@@ -8,6 +8,7 @@ const navItems = [
     { href: "/caixa", icon: "point_of_sale", label: "Caixa" },
     { href: "/estoque", icon: "inventory_2", label: "Estoque" },
     { href: "/clientes", icon: "group", label: "Clientes" },
+    { href: "/planilhas", icon: "table", label: "Planilhas" },
 ];
 
 export default function BottomNav() {
