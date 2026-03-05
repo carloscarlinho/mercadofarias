@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d9be7",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="max-w-md mx-auto min-h-screen flex flex-col pb-8">
+<!-- TopAppBar Component -->
+<header class="flex items-center p-4 pb-2 justify-between">
+<div class="text-slate-900 dark:text-slate-100 flex size-12 shrink-0 items-center justify-start cursor-pointer">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Checkout - Mercado Farias</h2>
+<div class="size-12"></div> <!-- Spacer for centering -->
+</header>
+<main class="flex-1 px-4 py-2">
+<!-- Order Summary Card -->
+<section class="mb-6">
+<h2 class="text-slate-900 dark:text-slate-100 text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-2">Resumo do Pedido</h2>
+<div class="flex items-stretch justify-between gap-4 rounded-xl bg-white dark:bg-slate-800 p-5 shadow-sm border border-slate-200 dark:border-slate-700">
+<div class="flex flex-col justify-center gap-1 flex-[2_2_0px]">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total da Venda</p>
+<p class="text-primary text-3xl font-bold leading-tight">R$ 150,00</p>
+</div>
+<div class="w-24 h-24 bg-primary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-4xl">shopping_basket</span>
+</div>
+</div>
+</section>
+<!-- Payment Type Selector -->
+<section class="mb-6">
+<h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em] pb-3">Tipo de Pagamento</h3>
+<div class="flex bg-slate-200 dark:bg-slate-700 p-1 rounded-xl">
+<label class="flex cursor-pointer h-12 flex-1 items-center justify-center overflow-hidden rounded-lg px-2 transition-all has-[:checked]:bg-white dark:has-[:checked]:bg-slate-600 has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-primary font-bold text-sm">
+<span class="truncate">Pagamento Total</span>
+<input class="sr-only" name="payment_mode" type="radio" value="total"/>
+</label>
+<label class="flex cursor-pointer h-12 flex-1 items-center justify-center overflow-hidden rounded-lg px-2 transition-all has-[:checked]:bg-white dark:has-[:checked]:bg-slate-600 has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-primary font-bold text-sm">
+<span class="truncate">Fiado / Parcial</span>
+<input checked="" class="sr-only" name="payment_mode" type="radio" value="partial"/>
+</label>
+</div>
+</section>
+<!-- Partial Payment Details -->
+<section class="space-y-4 animate-in fade-in duration-500">
+<div class="p-5 rounded-xl bg-primary/5 border border-primary/20">
+<label class="block text-sm font-bold text-primary mb-2">Sinal / Entrada (R$)</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-bold">R$</span>
+<input class="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-primary bg-white dark:bg-slate-800 text-2xl font-bold text-slate-900 dark:text-slate-100 focus:ring-4 focus:ring-primary/20 outline-none transition-all" placeholder="0,00" type="number" value="50.00"/>
+</div>
+<div class="mt-4 flex items-center justify-between p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-500">account_balance_wallet</span>
+<span class="text-sm font-medium text-slate-600 dark:text-slate-400">Restante para o Fiado:</span>
+</div>
+<span class="text-lg font-bold text-slate-900 dark:text-slate-100">R$ 100,00</span>
+</div>
+</div>
+<!-- Payment Methods for Down Payment -->
+<div>
+<h3 class="text-slate-900 dark:text-slate-100 text-base font-bold mb-3">Forma de Pagamento da Entrada</h3>
+<div class="grid grid-cols-3 gap-3">
+<button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 border-primary bg-primary/10 text-primary">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-xs font-bold">Dinheiro</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">credit_card</span>
+<span class="text-xs font-bold">Cartão</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">qr_code_2</span>
+<span class="text-xs font-bold">Pix</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Action -->
+<footer class="p-4 mt-auto">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-5 rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center gap-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined">check_circle</span>
+                Confirmar Venda
+            </button>
+<p class="text-center text-slate-400 dark:text-slate-500 text-xs mt-4">
+                O valor de R$ 100,00 será registrado na conta do cliente.
+            </p>
+</footer>
+</div>
+</body></html>

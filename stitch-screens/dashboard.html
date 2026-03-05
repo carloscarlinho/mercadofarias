@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mercado Farias - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d9be7",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header Section -->
+<header class="flex items-center bg-background-light dark:bg-background-dark p-4 sticky top-0 z-10 border-b border-primary/10">
+<div class="flex size-12 shrink-0 items-center">
+<div class="bg-primary/20 rounded-full size-10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">storefront</span>
+</div>
+</div>
+<div class="flex-1 ml-3">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Mercado Farias</p>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Bom dia, Farias</h2>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="size-10 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="Profile picture of the manager Farias" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAJAvNeYQl3RWiDK8Esn_V3cv63KzD7NQhqBuSmRCSRtTIhd_6JzSYG5avIimsQWTF_-Tf1ERRHTNYwrb6Sg1ORDmdVNrMHUM4cI4nestLAh3EUHATZLj5MywAuZRtUQTl4ZFN9e-yA4GCbxAg7Bq5QnLSDXrA7aUkmwOEuOsoKizZhiGtaNteqwAwQGUOyUy3rbXxZB0EvaQJSio7fIXQU_3yaT0aj4rU69YHo2zbvDChQyWS0UXT4cJ7xsP3szT5ECuYh_OqTgq7m')"></div>
+</div>
+</header>
+<main class="flex-1 pb-24">
+<!-- Summary Cards -->
+<div class="grid grid-cols-2 gap-4 p-4">
+<div class="flex flex-col gap-2 rounded-xl p-5 bg-primary/10 border border-primary/5">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-xl">payments</span>
+<p class="text-sm font-semibold uppercase tracking-wider">Vendas do Dia</p>
+</div>
+<p class="text-slate-900 dark:text-slate-100 tracking-tight text-2xl font-bold leading-tight">R$ 1.240,00</p>
+<p class="text-xs text-green-600 font-medium">+12% vs ontem</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-5 bg-primary/10 border border-primary/5">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-xl">receipt_long</span>
+<p class="text-sm font-semibold uppercase tracking-wider">Nº de Vendas</p>
+</div>
+<p class="text-slate-900 dark:text-slate-100 tracking-tight text-2xl font-bold leading-tight">42</p>
+<p class="text-xs text-slate-500 font-medium">Ticket Médio: R$ 29,52</p>
+</div>
+</div>
+<!-- Quick Access Buttons -->
+<div class="flex gap-3 px-4 py-2">
+<button class="flex-1 flex items-center justify-center gap-2 rounded-xl h-14 bg-primary text-white text-base font-bold shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+<span>Nova Venda</span>
+</button>
+<button class="flex-1 flex items-center justify-center gap-2 rounded-xl h-14 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 text-base font-bold active:scale-95 transition-transform">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Estoque</span>
+</button>
+</div>
+<!-- Alertas de Estoque -->
+<div class="px-4 mt-6">
+<div class="flex items-center justify-between mb-3">
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-orange-500">warning</span>
+                    Alertas de Estoque
+                </h2>
+<span class="text-xs font-bold text-primary uppercase">Ver todos</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+<div class="size-12 rounded-lg bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined">package_2</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-slate-800 dark:text-slate-200">Arroz Tio João 5kg</p>
+<p class="text-sm text-red-500 font-medium">Apenas 3 unidades</p>
+</div>
+<button class="p-2 text-primary hover:bg-primary/5 rounded-lg">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+<div class="flex items-center gap-3 p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+<div class="size-12 rounded-lg bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined">package_2</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-slate-800 dark:text-slate-200">Óleo de Soja 900ml</p>
+<p class="text-sm text-red-500 font-medium">Apenas 5 unidades</p>
+</div>
+<button class="p-2 text-primary hover:bg-primary/5 rounded-lg">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Validade Próxima -->
+<div class="px-4 mt-8">
+<div class="flex items-center justify-between mb-3">
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-red-500">event_busy</span>
+                    Validade Próxima
+                </h2>
+<span class="text-xs font-bold text-primary uppercase">Gerenciar</span>
+</div>
+<div class="grid grid-cols-1 gap-3">
+<div class="flex items-center gap-3 p-4 bg-white dark:bg-slate-800 rounded-xl border-l-4 border-l-red-500 shadow-sm">
+<div class="flex-1">
+<p class="font-bold text-slate-800 dark:text-slate-200">Iogurte Grego Tradicional</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-sm text-slate-400">calendar_month</span>
+<p class="text-sm text-slate-500">Vence em 2 dias (15/10)</p>
+</div>
+</div>
+<span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded">Promoção!</span>
+</div>
+<div class="flex items-center gap-3 p-4 bg-white dark:bg-slate-800 rounded-xl border-l-4 border-l-orange-500 shadow-sm">
+<div class="flex-1">
+<p class="font-bold text-slate-800 dark:text-slate-200">Pão de Forma Integral</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-sm text-slate-400">calendar_month</span>
+<p class="text-sm text-slate-500">Vence em 5 dias (18/10)</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-6 pb-6 pt-3 z-20">
+<div class="max-w-md mx-auto flex justify-between items-center">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">home</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Início</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">point_of_sale</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Caixa</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Clientes</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">more_horiz</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Mais</span>
+</a>
+</div>
+</nav>
+</body></html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>G.M.C - Caixa Rápido</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0ea5e9", // Sky Blue 500
+              "primary-dark": "#0284c7", // Sky Blue 600
+              "background-light": "#f8fafc", // Slate 50
+              "background-dark": "#101c22",
+              "surface": "#ffffff",
+              "text-main": "#0f172a", // Slate 900
+              "text-muted": "#64748b", // Slate 500
+              "success": "#10b981", // Emerald 500
+              "danger": "#ef4444", // Red 500
+              "warning": "#f59e0b", // Amber 500
+            },
+            fontFamily: {
+              "display": ["Outfit", "sans-serif"],
+              "body": ["Outfit", "sans-serif"],
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem", 
+              "lg": "1rem", // 16px
+              "xl": "1.5rem", 
+              "full": "9999px"
+            },
+            boxShadow: {
+                'soft': '0 4px 6px -1px rgb(0 0 0 / 0.05)',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        /* Hide scrollbar for cleaner UI */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main antialiased selection:bg-primary/20">
+<div class="relative flex h-screen w-full flex-col overflow-hidden max-w-md mx-auto shadow-2xl bg-background-light">
+<!-- Header & Client Selector -->
+<header class="px-4 pt-6 pb-2 bg-background-light z-10 shrink-0">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2 text-text-muted">
+<span class="material-symbols-outlined text-[20px]">storefront</span>
+<span class="text-sm font-medium">Mercado Farias</span>
+</div>
+<button class="p-2 rounded-full hover:bg-slate-100 text-text-main transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Client Selector Button -->
+<button class="w-full bg-surface shadow-soft rounded-lg p-3 flex items-center gap-3 border border-transparent hover:border-primary/30 transition-all active:scale-[0.99] group">
+<div class="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div class="flex-1 text-left">
+<p class="text-xs text-text-muted font-medium uppercase tracking-wider">Cliente Atual</p>
+<p class="text-base font-bold text-text-main truncate">Cliente Balcão</p>
+</div>
+<span class="material-symbols-outlined text-text-muted">expand_more</span>
+</button><div class="mt-4 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-[20px]">search</span>
+<input class="w-full h-11 pl-10 pr-4 bg-white border border-slate-200 rounded-lg text-sm focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Buscar produto ou código..." type="text"/>
+</div>
+</header>
+<!-- View Toggle (Grid vs Calculator) -->
+<div class="px-4 pb-2 shrink-0">
+<div class="bg-slate-200/50 p-1 rounded-lg flex gap-1">
+<button class="flex-1 flex items-center justify-center gap-2 bg-surface shadow-sm rounded-md py-2 text-sm font-bold text-primary transition-all">
+<span class="material-symbols-outlined text-[18px]">grid_view</span>
+                    Produtos
+                </button>
+<button class="flex-1 flex items-center justify-center gap-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded-md py-2 text-sm font-medium transition-all">
+<span class="material-symbols-outlined text-[18px]">calculate</span>
+                    Teclado
+                </button>
+</div>
+</div>
+<!-- Filter Chips (Horizontal Scroll) -->
+<div class="px-4 py-2 flex gap-2 overflow-x-auto no-scrollbar shrink-0">
+<button class="px-4 py-1.5 bg-text-main text-white rounded-full text-sm font-medium whitespace-nowrap shadow-sm">Todos</button>
+<button class="px-4 py-1.5 bg-white border border-slate-200 text-text-muted hover:text-primary hover:border-primary/30 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Bebidas</button>
+<button class="px-4 py-1.5 bg-white border border-slate-200 text-text-muted hover:text-primary hover:border-primary/30 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Mercearia</button>
+<button class="px-4 py-1.5 bg-white border border-slate-200 text-text-muted hover:text-primary hover:border-primary/30 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Limpeza</button>
+<button class="px-4 py-1.5 bg-white border border-slate-200 text-text-muted hover:text-primary hover:border-primary/30 rounded-full text-sm font-medium whitespace-nowrap transition-colors">Hortifruti</button>
+</div>
+<!-- Product Grid (Scrollable Area) -->
+<main class="flex-1 overflow-y-auto px-4 py-2 pb-32 no-scrollbar pt-4">
+<div class="grid grid-cols-3 gap-3">
+<!-- Product Card 1 -->
+<button class="relative bg-surface rounded-lg p-2 shadow-soft flex flex-col gap-2 items-center text-center active:scale-95 transition-transform border border-transparent hover:border-primary/20 group">
+<div class="w-full aspect-square bg-slate-50 rounded-md flex items-center justify-center overflow-hidden mb-1 relative">
+<img alt="Pão Francês crocante" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" data-alt="Close up of fresh bread loaf" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLquc4z58656pnJNrkZwPJZ_ekFJs_pS76xEcnPIZxZ1HCxRadMQSzz3TlC9u29_fPuFbN0l4Y8n9c9JU9IUyRcIeh0-3-QrVnJEGr4aE7NDvi20f2NuTFEQbnRVMrjzndpuNBbpr5AHWTNnQVX4awuh-MAo9QfrZj8TEU7CY2Fkb3VhVdo10mB9_d730YJld8uxYI8Iu0TQL-7b9isStatwU6UquQpRbM2HSe_kp53Mgjm0lNRilg0elNH-BqjSoCi2kzzHLu_lU6"/>
+<!-- Badge Animation Placeholder -->
+<div class="absolute inset-0 bg-primary/10 hidden group-active:flex items-center justify-center">
+<span class="bg-primary text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">+1</span>
+</div>
+</div>
+<div class="w-full">
+<p class="text-sm font-medium text-text-main leading-tight truncate">Pão Francês</p>
+<p class="text-xs text-text-muted mb-1">Kg</p>
+<p class="text-base font-bold text-text-main">R$ 12,90</p>
+</div>
+</button>
+<!-- Product Card 2 -->
+<button class="relative bg-surface rounded-lg p-2 shadow-soft flex flex-col gap-2 items-center text-center active:scale-95 transition-transform border border-transparent hover:border-primary/20 group">
+<div class="w-full aspect-square bg-red-50 rounded-md flex items-center justify-center overflow-hidden mb-1">
+<img alt="Garrafa de Coca-Cola" class="w-full h-full object-cover mix-blend-multiply opacity-90" data-alt="Red soda bottle on white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeDZ7Mhj9_PewGv5buGfUkcTV2wp2Miez0ZzvwQbuLjJ6RLNLB7WUt57qxy50sjloiyIECpPEdXAYY055CU9tUqxM548Q4ET-2fUo_r2_Z7CC4bGkJzPwDvWCz8mATn8AcAlMDMZp3Odxq5_PqEHdAbckRKYavWOy7yEmHtZxL95kQGWDgmoNJv3Xhf5sOp41yZE561NQoNxWUyp0mCYfbhirhsJjyAaV_Q-gmFwC7CGrkHye-sOdjdd47-raC1ghTmzibjfIln9Im"/>
+</div>
+<div class="w-full">
+<p class="text-sm font-medium text-text-main leading-tight truncate">Coca-Cola 2L</p>
+<p class="text-xs text-text-muted mb-1">Un</p>
+<p class="text-base font-bold text-text-main">R$ 9,50</p>
+</div>
+<!-- Example of quantity badge if item is in cart -->
+<div class="absolute top-1 right-1 bg-primary text-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full shadow-md border-2 border-white">2</div>
+</button>
+<!-- Product Card 3 (No Image / Placeholder) -->
+<button class="relative bg-surface rounded-lg p-2 shadow-soft flex flex-col gap-2 items-center text-center active:scale-95 transition-transform border border-transparent hover:border-primary/20 group">
+<div class="w-full aspect-square bg-blue-100 rounded-md flex items-center justify-center overflow-hidden mb-1 text-blue-500 font-bold text-2xl">
+                        L
+                    </div>
+<div class="w-full">
+<p class="text-sm font-medium text-text-main leading-tight truncate">Leite Integral</p>
+<p class="text-xs text-text-muted mb-1">1L</p>
+<p class="text-base font-bold text-text-main">R$ 4,80</p>
+</div>
+</button>
+<!-- Product Card 4 -->
+<button class="relative bg-surface rounded-lg p-2 shadow-soft flex flex-col gap-2 items-center text-center active:scale-95 transition-transform border border-transparent hover:border-primary/20 group">
+<div class="w-full aspect-square bg-yellow-50 rounded-md flex items-center justify-center overflow-hidden mb-1">
+<img alt="Pacote de macarrão" class="w-full h-full object-cover opacity-90" data-alt="Pack of dry pasta spaghetti" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpcOJn3xiiv3-nSvU6BPMsFFqEfb7q6NkSVikB-y74yvuwlcvp9yOEGmFnE5Bob25dA9HbOnZeGZAVEQMDT5_wVpS0zn8Z_BuT7YNatqYGbr1UOxs2lNbhW0gCN1LCIRADfTLgUCa-bnI2D-YJHS-8SsBtvkLi3R0lrucWemEDu__2y2EBsrk77iamzKzrs6XPJ-kWd58rzNBebn-vB-bqeQ65r__xGSla-DkfK2M6t9H12XgdrhugXaaYWwUWHx28nGyFmyQvbqN1"/>
+</div>
+<div class="w-full">
+<p class="text-sm font-medium text-text-main leading-tight truncate">Macarrão</p>
+<p class="text-xs text-text-muted mb-1">500g</p>
+<p class="text-base font-bold text-text-main">R$ 3,20</p>
+</div>
+</button>
+<!-- Product Card 5 -->
+<button class="relative bg-surface rounded-lg p-2 shadow-soft flex flex-col gap-2 items-center text-center active:scale-95 transition-transform border border-transparent hover:border-primary/20 group">
+<div class="w-full aspect-square bg-green-50 rounded-md flex items-center justify-center overflow-hidden mb-1">
+<img alt="Detergente líquido" class="w-full h-full object-cover opacity-90" data-alt="Green dish soap bottle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4NdkY8oDIelTLPINfYi8sCPHWrCyUUTpM-o3b2vQ-vR97HK6EpXThSubFOFB-Lqz5CD1Jp1qMXaSQY-DPT-9nG66yYfwsLCOHCe_eKdTU8GyvZHaFLIkt9F5uChW8FUnPPS3EClHWCHPcXrrfDULWB4FrVhbEw6K-lESNr_rUXZwLjeCEumYbgN2v9VGGwQquZVyjyUqIS-RMEyrds1HcCk6T9dmaJcxX71x8I5jGMuFcxsE15Alyu7BCb6lSkW6r9yXG5_3N-ZpE"/>
+</div>
+<div class="w-full">
+<p class="text-sm font-medium text-text-main leading-tight truncate">Detergente</p>
+<p class="text-xs text-text-muted mb-1">500ml</p>
+<p class="text-base font-bold text-text-main">R$ 2,10</p>
+</div>
+<div class="absolute top-1 right-1 bg-primary text-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full shadow-md border-2 border-white">1</div>
+</button>
+<!-- Product Card 6 -->
+<button class="relative bg-surface rounded-lg p-2 shadow-soft flex flex-col gap-2 items-center text-center active:scale-95 transition-transform border border-transparent hover:border-primary/20 group">
+<div class="w-full aspect-square bg-orange-100 rounded-md flex items-center justify-center overflow-hidden mb-1 text-orange-500 font-bold text-2xl">
+                        A
+                    </div>
+<div class="w-full">
+<p class="text-sm font-medium text-text-main leading-tight truncate">Arroz Tipo 1</p>
+<p class="text-xs text-text-muted mb-1">5kg</p>
+<p class="text-base font-bold text-text-main">R$ 22,00</p>
+</div>
+</button>
+<!-- Product Card 7 -->
+<button class="relative bg-surface rounded-lg p-2 shadow-soft flex flex-col gap-2 items-center text-center active:scale-95 transition-transform border border-transparent hover:border-primary/20 group">
+<div class="w-full aspect-square bg-purple-50 rounded-md flex items-center justify-center overflow-hidden mb-1">
+<img alt="Sabonete em barra" class="w-full h-full object-cover opacity-90" data-alt="Bar of soap wrapped" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlK6JcSutZq5tfM4ckai4lp-1TzyqDolASvYd4cevjJDHzdPQzuG_SxzZSd3jw_0ODPLS3KYrkG9XtT3Xd6-oofmtoCLPCNTLlEUZUtXjoPfAss9yV2S-OC95VV_k7j_ID0fjYGYXfKokoK72QOeli2oIQUh5GOmMiL0M3nrM3y05O_hF_KIFUTgpXMsCbxfs2qN6AqnUXFuX21pLULXOZKci7TaiTBmvUTgGAocjg-x29Jvldg04l_bS9g9htLcg2gC77qYNldarX"/>
+</div>
+<div class="w-full">
+<p class="text-sm font-medium text-text-main leading-tight truncate">Sabonete</p>
+<p class="text-xs text-text-muted mb-1">90g</p>
+<p class="text-base font-bold text-text-main">R$ 1,80</p>
+</div>
+</button>
+<!-- Product Card 8 -->
+<button class="relative bg-surface rounded-lg p-2 shadow-soft flex flex-col gap-2 items-center text-center active:scale-95 transition-transform border border-transparent hover:border-primary/20 group">
+<div class="w-full aspect-square bg-slate-100 rounded-md flex items-center justify-center overflow-hidden mb-1 text-slate-500 font-bold text-2xl">
+                        O
+                    </div>
+<div class="w-full">
+<p class="text-sm font-medium text-text-main leading-tight truncate">Óleo de Soja</p>
+<p class="text-xs text-text-muted mb-1">900ml</p>
+<p class="text-base font-bold text-text-main">R$ 6,50</p>
+</div>
+</button>
+<!-- Product Card 9 -->
+<button class="relative bg-surface rounded-lg p-2 shadow-soft flex flex-col gap-2 items-center text-center active:scale-95 transition-transform border border-transparent hover:border-primary/20 group">
+<div class="w-full aspect-square bg-amber-50 rounded-md flex items-center justify-center overflow-hidden mb-1">
+<img alt="Biscoito Recheado" class="w-full h-full object-cover opacity-90" data-alt="Pack of chocolate cookies" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwjp7u5aSVTFP9-L-gn6In6i_JQVNFapYKZ7waMYG0sqLPo2Hk6Boimk3p6utsWY-_DSsmSenJpKwcBu3UahX1PnXgYg8EjoshaiUmdv3lqzNH8JLq9gHRtwbA0S0WoiLOYD3rhVyGG5mThVA7inftayv_izgnD_INVNJ3A0PI4l-7qV8ZWCCv3alHWffFrt44I3-POOTZK_AIqpB7LFlAiXK9b4-Xl8pmnNuAT6DieQyJ-Kj9-vtV92HqeT7W0GWaNwES1CpHWGBN"/>
+</div>
+<div class="w-full">
+<p class="text-sm font-medium text-text-main leading-tight truncate">Biscoito</p>
+<p class="text-xs text-text-muted mb-1">130g</p>
+<p class="text-base font-bold text-text-main">R$ 3,50</p>
+</div>
+</button>
+</div>
+</main>
+<!-- Checkout Floating Area -->
+<div class="absolute bottom-[80px] left-0 w-full px-4 pb-4 bg-gradient-to-t from-background-light via-background-light to-transparent pt-8">
+<div class="bg-surface shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.1)] rounded-2xl p-4 border border-slate-100">
+<!-- Cart Summary Header -->
+<div class="flex items-center justify-between mb-3 px-1"><div class="flex items-center gap-2 text-text-main">
+<div class="bg-primary text-white p-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+</div>
+<div>
+<p class="text-[10px] text-text-muted uppercase font-bold tracking-tighter">Itens no Carrinho</p>
+<p class="text-sm font-bold">3 unidades</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[10px] text-text-muted uppercase font-bold tracking-tighter block">Total Geral</span>
+<span class="text-2xl font-black text-primary">R$ 45,90</span>
+</div></div>
+<!-- Action Button -->
+<div class="flex gap-2">
+<button class="flex-[2] h-14 bg-primary hover:bg-primary-dark text-white rounded-xl flex items-center justify-center gap-2 font-bold text-base shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">payments</span>
+    Pagamento Agora
+  </button>
+<button class="flex-1 h-14 bg-white border-2 border-slate-200 text-text-main hover:border-primary/30 rounded-xl flex flex-col items-center justify-center transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="text-[10px] font-bold uppercase">Fiado</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation -->
+<nav class="shrink-0 flex gap-2 border-t border-slate-100 bg-surface px-4 pb-5 pt-2 z-50">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-text-muted hover:text-primary transition-colors group" href="#">
+<div class="group-hover:bg-primary/5 rounded-full px-4 py-1 flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[24px]">home</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-wide">Início</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="#">
+<div class="bg-primary/10 rounded-full px-4 py-1 flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px] fill-current">point_of_sale</span>
+</div>
+<p class="text-[10px] font-bold leading-normal tracking-wide">Caixa</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-text-muted hover:text-primary transition-colors group" href="#">
+<div class="group-hover:bg-primary/5 rounded-full px-4 py-1 flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[24px]">group</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-wide">Clientes</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-text-muted hover:text-primary transition-colors group" href="#">
+<div class="group-hover:bg-primary/5 rounded-full px-4 py-1 flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-wide">Mais</p>
+</a>
+</nav>
+</div>
+</body></html>

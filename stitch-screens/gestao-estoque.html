@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>G.M.C - Estoque</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Outfit:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ea5e9", // Sky Blue 500
+                        "primary-dark": "#0284c7", // Sky Blue 600
+                        "background-light": "#f8fafc", // Slate 50
+                        "background-dark": "#0f172a", // Slate 900
+                        "surface": "#ffffff",
+                        "text-main": "#0f172a", // Slate 900
+                        "text-muted": "#64748b", // Slate 500
+                        "success": "#10b981", // Emerald 500
+                        "warning": "#f59e0b", // Amber 500
+                        "danger": "#ef4444", // Red 500
+                    },
+                    fontFamily: {
+                        "display": ["Outfit", "Plus Jakarta Sans", "sans-serif"],
+                        "body": ["Outfit", "Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "card": "16px",
+                        "btn": "12px",
+                        "DEFAULT": "0.5rem", 
+                        "lg": "1rem", 
+                        "xl": "1.5rem", 
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        "soft": "0 4px 6px -1px rgb(0 0 0 / 0.05)",
+                        "nav": "0 -4px 20px -5px rgb(0 0 0 / 0.05)"
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-slate-100 min-h-screen flex flex-col overflow-hidden">
+<!-- Header & Search -->
+<header class="bg-surface sticky top-0 z-20 px-4 pt-12 pb-4 shadow-soft">
+<div class="flex items-center justify-between mb-4">
+<h1 class="text-2xl font-bold text-text-main tracking-tight">Estoque</h1>
+<button aria-label="Adicionar produto" class="bg-primary/10 text-primary hover:bg-primary/20 p-2 rounded-btn transition-colors">
+<span class="material-symbols-outlined !text-[28px]">add</span>
+</button>
+</div>
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-muted">search</span>
+</div>
+<input class="block w-full pl-10 pr-10 py-3 bg-background-light border-none rounded-btn text-text-main placeholder-text-muted focus:ring-2 focus:ring-primary focus:bg-white transition-all text-base" placeholder="Buscar por nome ou código..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+</button>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-3 mt-4 overflow-x-auto hide-scrollbar pb-1">
+<button class="flex-shrink-0 px-4 py-2 bg-text-main text-white rounded-full text-sm font-medium shadow-sm transition-transform active:scale-95">
+                Todos
+            </button>
+<button class="flex-shrink-0 px-4 py-2 bg-white border border-slate-200 text-text-muted rounded-full text-sm font-medium whitespace-nowrap shadow-sm hover:border-warning/50 hover:text-warning transition-colors active:scale-95">
+<span class="w-2 h-2 rounded-full bg-warning inline-block mr-2"></span>Baixo Estoque
+            </button>
+<button class="flex-shrink-0 px-4 py-2 bg-white border border-slate-200 text-text-muted rounded-full text-sm font-medium whitespace-nowrap shadow-sm hover:border-danger/50 hover:text-danger transition-colors active:scale-95">
+<span class="w-2 h-2 rounded-full bg-danger inline-block mr-2"></span>Vencidos
+            </button><button class="flex-shrink-0 px-4 py-2 bg-white border border-slate-200 text-text-muted rounded-full text-sm font-medium whitespace-nowrap shadow-sm hover:border-primary/50 hover:text-primary transition-colors active:scale-95"><span class="material-symbols-outlined text-[18px] align-middle mr-1">category</span>Categorias</button>
+</div>
+</header>
+<!-- Main Content: Product List -->
+<main class="flex-1 overflow-y-auto px-4 py-4 pb-28 space-y-3">
+<!-- Section Label -->
+<div class="flex justify-between items-end px-1">
+<h2 class="text-sm font-semibold text-text-muted uppercase tracking-wider">Produtos (24)</h2>
+</div>
+<!-- Card: Normal Stock -->
+<div class="bg-surface rounded-card p-4 flex items-center gap-4 shadow-soft active:bg-slate-50 transition-colors cursor-pointer group">
+<div class="relative w-16 h-16 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
+<img alt="Saco de Arroz Tio João" class="w-full h-full object-cover" data-alt="Saco de Arroz branco em embalagem plástica" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyt_KdkDkn7wE5mapLfBI4to9FmEhDTfEbgCXtpyb7lYjnBW3kM65oUwSjd2zPy7NYp76cNp2rOd3f4LuCsRXeN9jSbIeMpiAuXfYNbQ3JCFMsJZ_hVyKW6FHdmqIAwmzIkYn9xb2JUVE_Q0NP7nVJkqb65PSh5geD8oRWncpf0gZdZrUG03Cf319vU93l93fpyxfPQ7LRytkYsvrjTnQ9ciMHsgHhGbVHXxkx24WJTR_b3Q2Jd5qQPY8vz8sOMgMAmb89W91xUub4"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-text-main text-lg leading-tight truncate pr-2">Arroz Tio João 5kg</h3>
+<span class="font-semibold text-text-main whitespace-nowrap">R$ 22,90</span>
+</div>
+<p class="text-text-muted text-sm truncate">Tio João</p>
+<div class="flex items-center gap-2 mt-1"><div class="flex items-center gap-2 bg-slate-100 rounded-lg p-1 mt-1"><button class="w-7 h-7 flex items-center justify-center bg-white rounded shadow-sm text-text-muted hover:text-danger"><span class="material-symbols-outlined text-[18px]">remove</span></button><span class="text-sm font-bold text-text-main w-8 text-center">15</span><button class="w-7 h-7 flex items-center justify-center bg-white rounded shadow-sm text-text-muted hover:text-success"><span class="material-symbols-outlined text-[18px]">add</span></button></div><span class="text-xs text-text-muted ml-1">unidades</span></div>
+</div>
+</div>
+<!-- Card: Low Stock -->
+<div class="bg-surface rounded-card p-4 flex items-center gap-4 shadow-soft active:bg-slate-50 transition-colors cursor-pointer group border-l-4 border-warning">
+<div class="relative w-16 h-16 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
+<img alt="Lata de Leite em pó" class="w-full h-full object-cover" data-alt="Lata de metal prateada de leite em pó" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKEdL0xzGZqRET7Jef9YZ17leo6tOalcpxyAuP31SHj62pVdGfKFYiuxkbqGp1_wcUFp2rJtDuiR6NOjav-1U3rgUDkd-cbbikJ374gbP7vEVGR1zHHEL52Kawfjo9RQAfYUvZKwnpjSnbx3v9QtAgbn8GK0wnxsGc1Zv56Qkjv1ZpbmU6elenC_mFxg6s36fIAgKXKrYtqSkw8WXFqqgEgJUA93dgRi2cR_J8fqjmRh8bHp--osv7T5mAjF9QpuzMmfejYy_yDIyb"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-text-main text-lg leading-tight truncate pr-2">Leite Ninho Lata</h3>
+<span class="font-semibold text-text-main whitespace-nowrap">R$ 14,50</span>
+</div>
+<p class="text-text-muted text-sm truncate">Nestlé</p>
+<div class="flex items-center gap-1.5 mt-1 text-warning bg-warning/10 px-2 py-0.5 rounded-md w-fit">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span class="text-xs font-bold uppercase tracking-wide">Restam 4</span>
+</div>
+</div>
+</div>
+<!-- Card: Expired -->
+<div class="bg-surface rounded-card p-4 flex items-center gap-4 shadow-soft active:bg-slate-50 transition-colors cursor-pointer group border-l-4 border-danger">
+<div class="relative w-16 h-16 rounded-xl bg-orange-100 flex items-center justify-center flex-shrink-0 text-orange-500 font-bold text-xl">
+                I
+            </div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-text-main text-lg leading-tight truncate pr-2">Iogurte Morango</h3>
+<span class="font-semibold text-text-main whitespace-nowrap">R$ 4,00</span>
+</div>
+<p class="text-text-muted text-sm truncate">Danone</p>
+<div class="flex items-center gap-1.5 mt-1 text-danger bg-danger/10 px-2 py-0.5 rounded-md w-fit">
+<span class="material-symbols-outlined text-[16px]">event_busy</span>
+<span class="text-xs font-bold uppercase tracking-wide">Venceu!</span>
+</div>
+</div>
+</div>
+<!-- Card: Normal Stock -->
+<div class="bg-surface rounded-card p-4 flex items-center gap-4 shadow-soft active:bg-slate-50 transition-colors cursor-pointer group">
+<div class="relative w-16 h-16 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0 text-blue-500 font-bold text-xl">
+                F
+            </div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-text-main text-lg leading-tight truncate pr-2">Feijão Carioca</h3>
+<span class="font-semibold text-text-main whitespace-nowrap">R$ 8,90</span>
+</div>
+<p class="text-text-muted text-sm truncate">Camil</p>
+<div class="flex items-center gap-2 mt-1"><div class="flex items-center gap-2 bg-slate-100 rounded-lg p-1 mt-1"><button class="w-7 h-7 flex items-center justify-center bg-white rounded shadow-sm text-text-muted hover:text-danger"><span class="material-symbols-outlined text-[18px]">remove</span></button><span class="text-sm font-bold text-text-main w-8 text-center">32</span><button class="w-7 h-7 flex items-center justify-center bg-white rounded shadow-sm text-text-muted hover:text-success"><span class="material-symbols-outlined text-[18px]">add</span></button></div><span class="text-xs text-text-muted ml-1">unidades</span></div>
+</div>
+</div>
+<!-- Card: Normal Stock -->
+<div class="bg-surface rounded-card p-4 flex items-center gap-4 shadow-soft active:bg-slate-50 transition-colors cursor-pointer group">
+<div class="relative w-16 h-16 rounded-xl bg-purple-100 flex items-center justify-center flex-shrink-0 text-purple-500 font-bold text-xl">
+                S
+            </div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-text-main text-lg leading-tight truncate pr-2">Sabão em Pó 1kg</h3>
+<span class="font-semibold text-text-main whitespace-nowrap">R$ 18,50</span>
+</div>
+<p class="text-text-muted text-sm truncate">Omo</p>
+<div class="flex items-center gap-2 mt-1"><div class="flex items-center gap-2 bg-slate-100 rounded-lg p-1 mt-1"><button class="w-7 h-7 flex items-center justify-center bg-white rounded shadow-sm text-text-muted hover:text-danger"><span class="material-symbols-outlined text-[18px]">remove</span></button><span class="text-sm font-bold text-text-main w-8 text-center">12</span><button class="w-7 h-7 flex items-center justify-center bg-white rounded shadow-sm text-text-muted hover:text-success"><span class="material-symbols-outlined text-[18px]">add</span></button></div><span class="text-xs text-text-muted ml-1">unidades</span></div>
+</div>
+</div>
+<!-- Card: Low Stock -->
+<div class="bg-surface rounded-card p-4 flex items-center gap-4 shadow-soft active:bg-slate-50 transition-colors cursor-pointer group border-l-4 border-warning">
+<div class="relative w-16 h-16 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
+<img alt="Pacote de Café" class="w-full h-full object-cover" data-alt="Pacote de café torrado e moído embalagem escura" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf3S_srcec0LP1jWSn1sSZ8r9gMTuzCCGx3mOBgySy7VLORjwJnSkY5vNSx4tzeDLlf3fRv9eWicAaIL2PXfIhtmRQzxwMhOwUhQdB_chchojTMvUI7X7tYvjKKBUZCprbf3fHlOE6rKlYkX1SJn3fc949nn92CeKcGMzlZinpOsU4ICdB0ocq3bMXZ3ujobNe2ifXve32lZglFchHXc0eDH4ERQDtFuwE6IBboA7uy4_AZWG8GAJdykwvhTTURwg8G5DXelZtZyZp"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-text-main text-lg leading-tight truncate pr-2">Café Tradicional</h3>
+<span class="font-semibold text-text-main whitespace-nowrap">R$ 16,90</span>
+</div>
+<p class="text-text-muted text-sm truncate">Pilão</p>
+<div class="flex items-center gap-1.5 mt-1 text-warning bg-warning/10 px-2 py-0.5 rounded-md w-fit">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span class="text-xs font-bold uppercase tracking-wide">Restam 2</span>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB: Add New Product -->
+<div class="fixed bottom-24 right-4 z-10">
+<button class="bg-primary hover:bg-primary-dark text-white rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg shadow-blue-500/30 transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform duration-300">add</span>
+</button>
+</div>
+<!-- Bottom Navigation (Fixed) -->
+<nav class="fixed bottom-0 w-full bg-surface border-t border-slate-200 h-[80px] flex items-center justify-around z-30 pb-2">
+<a class="flex flex-col items-center justify-center gap-1 w-16 group text-text-muted hover:text-primary transition-colors" href="#">
+<div class="h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">home</span>
+</div>
+<span class="text-xs font-medium tracking-wide">Início</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-16 group text-text-muted hover:text-primary transition-colors" href="#">
+<div class="h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">shopping_cart</span>
+</div>
+<span class="text-xs font-medium tracking-wide">Caixa</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-16 group text-primary transition-colors" href="#">
+<div class="h-8 flex items-center justify-center relative">
+<span class="material-symbols-outlined text-[24px] fill-current">inventory_2</span>
+<!-- Notification Dot -->
+<span class="absolute top-1 right-0 w-2.5 h-2.5 bg-danger rounded-full border-2 border-white"></span>
+</div>
+<span class="text-xs font-bold tracking-wide">Estoque</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-16 group text-text-muted hover:text-primary transition-colors" href="#">
+<div class="h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">group</span>
+</div>
+<span class="text-xs font-medium tracking-wide">Clientes</span>
+</a>
+</nav>
+</body></html>
