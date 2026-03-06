@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase";
-import { getMercadoId, criarProduto, atualizarEstoque, deletarProduto } from "@/lib/actions";
+import { getMercadoId, criarProduto, atualizarProduto, atualizarEstoque, deletarProduto } from "@/lib/actions";
 import type { Produto } from "@/lib/types";
 
 const filtros = ["Todos", "Baixo Estoque", "Vencidos"];
@@ -14,8 +14,30 @@ export default function EstoquePage() {
     const [filtroAtivo, setFiltroAtivo] = useState("Todos");
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
+    const [editingId, setEditingId] = useState<string | null>(null);
     const [formData, setFormData] = useState({ nome: "", preco: "", estoque: "", estoque_minimo: "5", categoria: "", unidade: "Un", marca: "", validade: "" });
     const [saving, setSaving] = useState(false);
+
+    const openEditForm = (p: Produto) => {
+        setEditingId(p.id);
+        setFormData({
+            nome: p.nome,
+            preco: String(p.preco),
+            estoque: String(p.estoque),
+            estoque_minimo: String(p.estoque_minimo),
+            categoria: p.categoria || "",
+            unidade: p.unidade || "Un",
+            marca: p.marca || "",
+            validade: p.validade || "",
+        });
+        setShowForm(true);
+    };
+
+    const openNewForm = () => {
+        setEditingId(null);
+        setFormData({ nome: "", preco: "", estoque: "", estoque_minimo: "5", categoria: "", unidade: "Un", marca: "", validade: "" });
+        setShowForm(true);
+    };
 
     const loadProdutos = useCallback(async () => {
         try {
@@ -49,8 +71,7 @@ export default function EstoquePage() {
         if (!formData.nome || !formData.preco) return;
         setSaving(true);
         try {
-            await criarProduto({
-                mercado_id: mercadoId,
+            const payload = {
                 nome: formData.nome,
                 preco: parseFloat(formData.preco),
                 estoque: parseInt(formData.estoque || "0"),
@@ -59,11 +80,20 @@ export default function EstoquePage() {
                 unidade: formData.unidade || "Un",
                 marca: formData.marca || undefined,
                 validade: formData.validade || undefined,
-            });
+            };
+            if (editingId) {
+                await atualizarProduto(editingId, payload);
+            } else {
+                await criarProduto({ mercado_id: mercadoId, ...payload });
+            }
             setFormData({ nome: "", preco: "", estoque: "", estoque_minimo: "5", categoria: "", unidade: "Un", marca: "", validade: "" });
+            setEditingId(null);
             setShowForm(false);
             loadProdutos();
-        } catch { /* handle error */ } finally { setSaving(false); }
+        } catch (e: unknown) {
+            const msg = e instanceof Error ? e.message : "Erro desconhecido";
+            alert(msg);
+        } finally { setSaving(false); }
     };
 
     const handleDelete = async (id: string) => {
@@ -94,7 +124,7 @@ export default function EstoquePage() {
                 <div className="flex items-center justify-between mb-4">
                     <h1 className="text-2xl font-bold text-[#0f172a] tracking-tight">Estoque</h1>
                     <div className="flex items-center gap-2">
-                        <button onClick={() => setShowForm(true)} className="bg-[#0ea5e9]/10 text-[#0ea5e9] hover:bg-[#0ea5e9]/20 p-2 rounded-xl transition-colors">
+                        <button onClick={openNewForm} className="bg-[#0ea5e9]/10 text-[#0ea5e9] hover:bg-[#0ea5e9]/20 p-2 rounded-xl transition-colors">
                             <span className="material-symbols-outlined text-[28px]">add</span>
                         </button>
                         <img src="/logo.png" alt="Mercado Farias" className="w-10 h-10 rounded-xl object-cover" />
@@ -126,7 +156,7 @@ export default function EstoquePage() {
                     <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
                         <span className="material-symbols-outlined text-5xl text-[#94a3b8]">inventory_2</span>
                         <p className="text-[#64748b] mt-3 font-medium">Nenhum produto encontrado</p>
-                        <button onClick={() => setShowForm(true)} className="mt-3 bg-[#0ea5e9] text-white px-6 py-2 rounded-xl font-semibold">Adicionar Produto</button>
+                        <button onClick={openNewForm} className="mt-3 bg-[#0ea5e9] text-white px-6 py-2 rounded-xl font-semibold">Adicionar Produto</button>
                     </div>
                 )}
 
@@ -160,7 +190,10 @@ export default function EstoquePage() {
                                             </button>
                                         </div>
                                         <span className="text-xs text-[#64748b]">{produto.unidade || "Un"}</span>
-                                        <button onClick={() => handleDelete(produto.id)} className="ml-auto text-[#94a3b8] hover:text-[#ef4444]">
+                                        <button onClick={() => openEditForm(produto)} className="ml-auto text-[#94a3b8] hover:text-[#0ea5e9]">
+                                            <span className="material-symbols-outlined text-[18px]">edit</span>
+                                        </button>
+                                        <button onClick={() => handleDelete(produto.id)} className="text-[#94a3b8] hover:text-[#ef4444]">
                                             <span className="material-symbols-outlined text-[18px]">delete</span>
                                         </button>
                                     </div>
@@ -171,7 +204,10 @@ export default function EstoquePage() {
                                             <span className="material-symbols-outlined text-[16px]">warning</span>
                                             <span className="text-xs font-bold uppercase tracking-wide">Restam {produto.estoque}</span>
                                         </div>
-                                        <button onClick={() => handleDelete(produto.id)} className="text-[#94a3b8] hover:text-[#ef4444]"><span className="material-symbols-outlined text-[18px]">delete</span></button>
+                                        <div className="flex items-center gap-1">
+                                            <button onClick={() => openEditForm(produto)} className="text-[#94a3b8] hover:text-[#0ea5e9]"><span className="material-symbols-outlined text-[18px]">edit</span></button>
+                                            <button onClick={() => handleDelete(produto.id)} className="text-[#94a3b8] hover:text-[#ef4444]"><span className="material-symbols-outlined text-[18px]">delete</span></button>
+                                        </div>
                                     </div>
                                 )}
                                 {status === "vencido" && (
@@ -180,7 +216,10 @@ export default function EstoquePage() {
                                             <span className="material-symbols-outlined text-[16px]">event_busy</span>
                                             <span className="text-xs font-bold uppercase tracking-wide">Venceu!</span>
                                         </div>
-                                        <button onClick={() => handleDelete(produto.id)} className="text-[#94a3b8] hover:text-[#ef4444]"><span className="material-symbols-outlined text-[18px]">delete</span></button>
+                                        <div className="flex items-center gap-1">
+                                            <button onClick={() => openEditForm(produto)} className="text-[#94a3b8] hover:text-[#0ea5e9]"><span className="material-symbols-outlined text-[18px]">edit</span></button>
+                                            <button onClick={() => handleDelete(produto.id)} className="text-[#94a3b8] hover:text-[#ef4444]"><span className="material-symbols-outlined text-[18px]">delete</span></button>
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -191,7 +230,7 @@ export default function EstoquePage() {
 
             {/* FAB */}
             <div className="fixed bottom-24 right-4 z-10">
-                <button onClick={() => setShowForm(true)} className="bg-[#0ea5e9] hover:bg-[#0284c7] text-white rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg shadow-sky-500/30 transition-all active:scale-95">
+                <button onClick={openNewForm} className="bg-[#0ea5e9] hover:bg-[#0284c7] text-white rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg shadow-sky-500/30 transition-all active:scale-95">
                     <span className="material-symbols-outlined text-3xl">add</span>
                 </button>
             </div>
@@ -201,8 +240,8 @@ export default function EstoquePage() {
                 <div className="fixed inset-0 z-50 bg-black/40 flex items-end sm:items-center justify-center">
                     <div className="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 max-h-[85vh] overflow-y-auto">
                         <div className="flex justify-between items-center mb-5">
-                            <h2 className="text-xl font-bold text-[#0f172a]">Novo Produto</h2>
-                            <button onClick={() => setShowForm(false)} className="text-[#64748b]"><span className="material-symbols-outlined">close</span></button>
+                            <h2 className="text-xl font-bold text-[#0f172a]">{editingId ? "Editar Produto" : "Novo Produto"}</h2>
+                            <button onClick={() => { setShowForm(false); setEditingId(null); }} className="text-[#64748b]"><span className="material-symbols-outlined">close</span></button>
                         </div>
                         <div className="space-y-4">
                             <div>
@@ -259,8 +298,8 @@ export default function EstoquePage() {
                                 </div>
                             </div>
                             <button onClick={handleSubmit} disabled={saving || !formData.nome || !formData.preco} className="w-full bg-[#0ea5e9] disabled:bg-[#94a3b8] hover:bg-[#0284c7] text-white rounded-2xl py-4 font-bold text-base shadow-md shadow-sky-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
-                                {saving ? <span className="material-symbols-outlined animate-spin">progress_activity</span> : <span className="material-symbols-outlined">add_circle</span>}
-                                {saving ? "Salvando..." : "Salvar Produto"}
+                                {saving ? <span className="material-symbols-outlined animate-spin">progress_activity</span> : <span className="material-symbols-outlined">{editingId ? "save" : "add_circle"}</span>}
+                                {saving ? "Salvando..." : editingId ? "Atualizar Produto" : "Salvar Produto"}
                             </button>
                         </div>
                     </div>
