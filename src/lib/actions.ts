@@ -16,10 +16,17 @@ export async function getMercadoId(): Promise<string> {
         .limit(1);
 
     if (error) {
-        console.error("Erro ao buscar mercado:", error);
+        console.error("[GMC] Erro ao buscar mercado:", error.message, error.details, error.hint);
+        return '';
     }
 
-    return data && data.length > 0 ? data[0].id : '';
+    if (!data || data.length === 0) {
+        console.error("[GMC] Nenhum mercado encontrado no banco. Verifique se a tabela 'mercados' tem dados.");
+        return '';
+    }
+
+    console.log("[GMC] Mercado encontrado:", data[0].id);
+    return data[0].id;
 }
 
 // ============================================
@@ -37,12 +44,18 @@ export async function getProdutos(mercadoId: string) {
 }
 
 export async function criarProduto(produto: Partial<Produto>) {
+    if (!produto.mercado_id) {
+        throw new Error('Erro: mercado_id não encontrado. O banco de dados pode estar sem permissão para o usuário autenticado. Verifique as políticas RLS no Supabase.');
+    }
     const { data, error } = await getSupabase()
         .from('produtos')
         .insert(produto)
         .select()
         .single();
-    if (error) throw error;
+    if (error) {
+        console.error('[GMC] Erro ao criar produto:', error.message, error.details, error.hint);
+        throw new Error(`Erro ao salvar produto: ${error.message}`);
+    }
     return data as Produto;
 }
 
@@ -95,12 +108,18 @@ export async function getCliente(id: string) {
 }
 
 export async function criarCliente(cliente: Partial<Cliente>) {
+    if (!cliente.mercado_id) {
+        throw new Error('Erro: mercado_id não encontrado. O banco de dados pode estar sem permissão para o usuário autenticado. Verifique as políticas RLS no Supabase.');
+    }
     const { data, error } = await getSupabase()
         .from('clientes')
         .insert(cliente)
         .select()
         .single();
-    if (error) throw error;
+    if (error) {
+        console.error('[GMC] Erro ao criar cliente:', error.message, error.details, error.hint);
+        throw new Error(`Erro ao salvar cliente: ${error.message}`);
+    }
     return data as Cliente;
 }
 

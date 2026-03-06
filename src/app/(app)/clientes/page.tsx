@@ -41,7 +41,11 @@ export default function ClientesPage() {
             setFormData({ nome: "", telefone: "", observacoes: "" });
             setShowForm(false);
             loadClientes();
-        } catch { } finally { setSaving(false); }
+        } catch (e: unknown) {
+            const msg = e instanceof Error ? e.message : "Erro desconhecido ao salvar";
+            alert(msg);
+            console.error("[GMC] Erro handleSubmit:", msg);
+        } finally { setSaving(false); }
     };
 
     const handleDelete = async (id: string, nome: string) => {
