@@ -103,7 +103,7 @@ export default function CaixaPage() {
             <header className="bg-white sticky top-0 z-20 px-4 pt-12 pb-4 shadow-sm">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[#0ea5e9]">storefront</span>
+                        <img src="/logo.png" alt="Mercado Farias" className="w-10 h-10 rounded-xl object-cover" />
                         <h1 className="text-lg font-bold text-[#0f172a]">Mercado Farias</h1>
                     </div>
                 </div>

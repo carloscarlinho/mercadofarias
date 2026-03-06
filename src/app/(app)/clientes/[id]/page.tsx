@@ -74,6 +74,7 @@ export default function FichaClientePage() {
                         <a href="/clientes" className="text-[#64748b]"><span className="material-symbols-outlined text-2xl">arrow_back</span></a>
                         <h1 className="text-lg font-bold text-[#0f172a]">Ficha do Cliente</h1>
                     </div>
+                    <img src="/logo.png" alt="Mercado Farias" className="w-10 h-10 rounded-xl object-cover" />
                 </div>
             </header>
 

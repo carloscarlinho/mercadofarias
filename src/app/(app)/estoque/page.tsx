@@ -93,9 +93,12 @@ export default function EstoquePage() {
             <header className="bg-white sticky top-0 z-20 px-4 pt-12 pb-4 shadow-sm">
                 <div className="flex items-center justify-between mb-4">
                     <h1 className="text-2xl font-bold text-[#0f172a] tracking-tight">Estoque</h1>
-                    <button onClick={() => setShowForm(true)} className="bg-[#0ea5e9]/10 text-[#0ea5e9] hover:bg-[#0ea5e9]/20 p-2 rounded-xl transition-colors">
-                        <span className="material-symbols-outlined text-[28px]">add</span>
-                    </button>
+                    <div className="flex items-center gap-2">
+                        <button onClick={() => setShowForm(true)} className="bg-[#0ea5e9]/10 text-[#0ea5e9] hover:bg-[#0ea5e9]/20 p-2 rounded-xl transition-colors">
+                            <span className="material-symbols-outlined text-[28px]">add</span>
+                        </button>
+                        <img src="/logo.png" alt="Mercado Farias" className="w-10 h-10 rounded-xl object-cover" />
+                    </div>
                 </div>
                 <div className="relative w-full mb-4">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
