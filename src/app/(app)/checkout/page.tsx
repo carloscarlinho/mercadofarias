@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { useCalculator } from "@/components/CalculatorContext";
 
 function CheckoutContent() {
     const searchParams = useSearchParams();
     const totalVenda = parseFloat(searchParams.get("total") || "150");
     const tipoInicial = searchParams.get("tipo") || "pago";
+    const { openCalculator } = useCalculator();
 
     const [tipoPagamento, setTipoPagamento] = useState<"total" | "parcial">(
         tipoInicial === "fiado" ? "parcial" : "total"
@@ -57,8 +59,8 @@ function CheckoutContent() {
                         <button
                             onClick={() => { setTipoPagamento("total"); setSinal(totalVenda); }}
                             className={`py-3 rounded-2xl text-sm font-bold transition-all ${tipoPagamento === "total"
-                                    ? "bg-[#0f172a] text-white"
-                                    : "bg-white text-[#64748b] border border-slate-200"
+                                ? "bg-[#0f172a] text-white"
+                                : "bg-white text-[#64748b] border border-slate-200"
                                 }`}
                         >
                             Pagamento Total
@@ -66,8 +68,8 @@ function CheckoutContent() {
                         <button
                             onClick={() => { setTipoPagamento("parcial"); setSinal(50); }}
                             className={`py-3 rounded-2xl text-sm font-bold transition-all ${tipoPagamento === "parcial"
-                                    ? "bg-[#0ea5e9] text-white"
-                                    : "bg-white text-[#64748b] border border-slate-200"
+                                ? "bg-[#0ea5e9] text-white"
+                                : "bg-white text-[#64748b] border border-slate-200"
                                 }`}
                         >
                             Fiado / Parcial
@@ -85,9 +87,16 @@ function CheckoutContent() {
                                 type="number"
                                 value={sinal}
                                 onChange={(e) => setSinal(Math.max(0, Math.min(totalVenda, parseFloat(e.target.value) || 0)))}
-                                className="flex-1 text-3xl font-bold text-[#0f172a] border-none focus:ring-0 bg-transparent p-0"
+                                className="flex-1 text-3xl font-bold text-[#0f172a] border-none focus:ring-0 bg-transparent w-full p-0"
                                 step="0.01"
                             />
+                            <button
+                                type="button"
+                                onClick={() => openCalculator(sinal.toString(), (res) => setSinal(Math.max(0, Math.min(totalVenda, parseFloat(res) || 0))))}
+                                className="text-[#0ea5e9] hover:bg-[#0ea5e9]/10 p-2 rounded-lg transition-colors flex items-center justify-center shrink-0"
+                            >
+                                <span className="material-symbols-outlined text-[24px]">calculate</span>
+                            </button>
                         </div>
                         <div className="mt-3 flex items-center gap-2 bg-[#f1f5f9] rounded-xl px-4 py-3">
                             <span className="material-symbols-outlined text-[#f59e0b]">credit_score</span>
@@ -116,8 +125,8 @@ function CheckoutContent() {
                                 key={forma.id}
                                 onClick={() => setFormaPagamento(forma.id)}
                                 className={`py-4 rounded-2xl flex flex-col items-center gap-2 text-sm font-semibold transition-all ${formaPagamento === forma.id
-                                        ? "bg-[#0ea5e9]/10 text-[#0ea5e9] border-2 border-[#0ea5e9]"
-                                        : "bg-white text-[#64748b] border border-slate-200"
+                                    ? "bg-[#0ea5e9]/10 text-[#0ea5e9] border-2 border-[#0ea5e9]"
+                                    : "bg-white text-[#64748b] border border-slate-200"
                                     }`}
                             >
                                 <span className="material-symbols-outlined text-2xl">{forma.icon}</span>
