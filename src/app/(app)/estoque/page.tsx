@@ -139,7 +139,12 @@ export default function EstoquePage() {
                                     <h3 className="font-bold text-[#0f172a] text-base leading-tight truncate pr-2">{produto.nome}</h3>
                                     <span className="font-semibold text-[#0f172a] whitespace-nowrap">R$ {Number(produto.preco).toFixed(2).replace(".", ",")}</span>
                                 </div>
-                                {produto.marca && <p className="text-[#64748b] text-sm truncate">{produto.marca}</p>}
+                                {(produto.marca || produto.categoria) && (
+                                    <div className="flex items-center gap-2 mt-0.5">
+                                        {produto.categoria && <span className="text-xs font-semibold text-[#0ea5e9] bg-[#0ea5e9]/10 px-2 py-0.5 rounded-md">{produto.categoria}</span>}
+                                        {produto.marca && <span className="text-[#64748b] text-sm truncate">{produto.marca}</span>}
+                                    </div>
+                                )}
                                 {status === "normal" && (
                                     <div className="flex items-center gap-2 mt-2">
                                         <div className="flex items-center gap-2 bg-slate-100 rounded-lg p-1">
@@ -200,6 +205,23 @@ export default function EstoquePage() {
                             <div>
                                 <label className="text-sm font-semibold text-[#0f172a] mb-1 block">Nome *</label>
                                 <input className="w-full bg-[#f8fafc] rounded-xl px-4 py-3 text-[#0f172a] focus:ring-2 focus:ring-[#0ea5e9] border-none" placeholder="Ex: Arroz Tio João 5kg" value={formData.nome} onChange={(e) => setFormData({ ...formData, nome: e.target.value })} />
+                            </div>
+                            <div>
+                                <label className="text-sm font-semibold text-[#0f172a] mb-1 block">Categoria</label>
+                                <select className="w-full bg-[#f8fafc] rounded-xl px-4 py-3 text-[#0f172a] focus:ring-2 focus:ring-[#0ea5e9] border-none" value={formData.categoria} onChange={(e) => setFormData({ ...formData, categoria: e.target.value })}>
+                                    <option value="">Selecione...</option>
+                                    <option>Alimentos</option>
+                                    <option>Bebidas</option>
+                                    <option>Frios e Laticínios</option>
+                                    <option>Padaria</option>
+                                    <option>Açougue</option>
+                                    <option>Hortifruti</option>
+                                    <option>Limpeza</option>
+                                    <option>Higiene</option>
+                                    <option>Doces e Snacks</option>
+                                    <option>Congelados</option>
+                                    <option>Outros</option>
+                                </select>
                             </div>
                             <div className="grid grid-cols-2 gap-3">
                                 <div>
