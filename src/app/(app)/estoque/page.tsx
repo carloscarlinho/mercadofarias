@@ -96,12 +96,18 @@ export default function EstoquePage() {
         } finally { setSaving(false); }
     };
 
-    const handleDelete = async (id: string) => {
-        if (!confirm("Remover este produto?")) return;
+    const handleDelete = async (produto: Produto) => {
+        if (!confirm(`Remover o produto "${produto.nome}"?`)) return;
         try {
-            await deletarProduto(id);
-            setProdutos((prev) => prev.filter((p) => p.id !== id));
-        } catch { /* handle error */ }
+            await deletarProduto(produto.id);
+            setProdutos((prev) => prev.filter((p) => p.id !== produto.id));
+        } catch (e: any) {
+            if (e?.code === '23503') {
+                alert(`⚠️ Não é possível excluir "${produto.nome}" porque ele já possui histórico de vendas.\n\nPara removê-lo da tela de Vendas, você pode zerar o estoque ou editá-lo.`);
+            } else {
+                alert("Erro ao remover o produto. Tente novamente.");
+            }
+        }
     };
 
     const getStatus = (p: Produto) => {
@@ -193,7 +199,7 @@ export default function EstoquePage() {
                                         <button onClick={() => openEditForm(produto)} className="ml-auto text-[#94a3b8] hover:text-[#0ea5e9]">
                                             <span className="material-symbols-outlined text-[18px]">edit</span>
                                         </button>
-                                        <button onClick={() => handleDelete(produto.id)} className="text-[#94a3b8] hover:text-[#ef4444]">
+                                        <button onClick={() => handleDelete(produto)} className="text-[#94a3b8] hover:text-[#ef4444]">
                                             <span className="material-symbols-outlined text-[18px]">delete</span>
                                         </button>
                                     </div>
@@ -206,7 +212,7 @@ export default function EstoquePage() {
                                         </div>
                                         <div className="flex items-center gap-1">
                                             <button onClick={() => openEditForm(produto)} className="text-[#94a3b8] hover:text-[#0ea5e9]"><span className="material-symbols-outlined text-[18px]">edit</span></button>
-                                            <button onClick={() => handleDelete(produto.id)} className="text-[#94a3b8] hover:text-[#ef4444]"><span className="material-symbols-outlined text-[18px]">delete</span></button>
+                                            <button onClick={() => handleDelete(produto)} className="text-[#94a3b8] hover:text-[#ef4444]"><span className="material-symbols-outlined text-[18px]">delete</span></button>
                                         </div>
                                     </div>
                                 )}
@@ -218,7 +224,7 @@ export default function EstoquePage() {
                                         </div>
                                         <div className="flex items-center gap-1">
                                             <button onClick={() => openEditForm(produto)} className="text-[#94a3b8] hover:text-[#0ea5e9]"><span className="material-symbols-outlined text-[18px]">edit</span></button>
-                                            <button onClick={() => handleDelete(produto.id)} className="text-[#94a3b8] hover:text-[#ef4444]"><span className="material-symbols-outlined text-[18px]">delete</span></button>
+                                            <button onClick={() => handleDelete(produto)} className="text-[#94a3b8] hover:text-[#ef4444]"><span className="material-symbols-outlined text-[18px]">delete</span></button>
                                         </div>
                                     </div>
                                 )}
