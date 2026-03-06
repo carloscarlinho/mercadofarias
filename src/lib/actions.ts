@@ -10,12 +10,16 @@ function getSupabase() {
 // ============================================
 
 export async function getMercadoId(): Promise<string> {
-    const { data } = await getSupabase()
+    const { data, error } = await getSupabase()
         .from('mercados')
         .select('id')
-        .limit(1)
-        .single();
-    return data?.id || '';
+        .limit(1);
+
+    if (error) {
+        console.error("Erro ao buscar mercado:", error);
+    }
+
+    return data && data.length > 0 ? data[0].id : '';
 }
 
 // ============================================
