@@ -65,10 +65,19 @@ export default function DashboardPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
-                <div className="text-center">
-                    <span className="material-symbols-outlined text-5xl text-[#0ea5e9] animate-spin">progress_activity</span>
-                    <p className="text-[#64748b] mt-3 font-medium">Carregando...</p>
+            <div className="min-h-screen bg-gradient-to-b from-[#0f172a] via-[#0c1425] to-[#0f172a] flex items-center justify-center relative overflow-hidden">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#0ea5e9]/20 rounded-full blur-[80px] animate-pulse pointer-events-none" />
+                <div className="text-center z-10 animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite]">
+                    <img
+                        src="/logo.png"
+                        alt="Mercado Farias"
+                        className="w-40 h-40 sm:w-48 sm:h-48 object-contain drop-shadow-[0_0_30px_rgba(14,165,233,0.5)] mx-auto mb-4"
+                    />
+                    <div className="flex items-center justify-center gap-2 text-[#0ea5e9] font-medium tracking-widest text-sm uppercase">
+                        <span className="w-2 h-2 rounded-full bg-[#0ea5e9] animate-bounce" style={{ animationDelay: '0ms' }} />
+                        <span className="w-2 h-2 rounded-full bg-[#0ea5e9] animate-bounce" style={{ animationDelay: '150ms' }} />
+                        <span className="w-2 h-2 rounded-full bg-[#0ea5e9] animate-bounce" style={{ animationDelay: '300ms' }} />
+                    </div>
                 </div>
             </div>
         );
