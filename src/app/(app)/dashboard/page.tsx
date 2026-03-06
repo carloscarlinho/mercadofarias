@@ -80,20 +80,14 @@ export default function DashboardPage() {
             <header className="bg-gradient-to-br from-[#f0f9ff] to-[#e0f2fe] px-5 pt-14 pb-6">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-2xl bg-[#0ea5e9] flex items-center justify-center shadow-md shadow-sky-200">
-                            <span className="material-symbols-outlined text-white text-xl">storefront</span>
-                        </div>
+                        <img
+                            src="/logo.png"
+                            alt="Mercado Farias"
+                            className="w-14 h-14 rounded-2xl object-cover shadow-md"
+                        />
                         <div>
                             <p className="text-sm text-[#64748b] font-medium">Mercado Farias</p>
                             <h1 className="text-xl font-bold text-[#0f172a]">Bom dia, Farias</h1>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <button className="w-10 h-10 rounded-xl bg-white/80 flex items-center justify-center shadow-sm hover:bg-white transition-colors">
-                            <span className="material-symbols-outlined text-[#64748b]">notifications</span>
-                        </button>
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#0ea5e9] to-[#0284c7] flex items-center justify-center text-white text-sm font-bold shadow-md shadow-sky-200">
-                            MF
                         </div>
                     </div>
                 </div>
